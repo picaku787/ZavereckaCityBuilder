@@ -1,7 +1,6 @@
 package events;
 
 import model.GameManager;
-
 /**
  * Event representing a temporary boost to house population bonuses due to a housing boom.
  */

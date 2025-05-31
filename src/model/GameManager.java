@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
-
 /**
  * Manages the game state including the grid of tiles, resources, day count,
  * population tracking, and more.

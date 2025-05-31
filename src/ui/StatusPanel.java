@@ -3,7 +3,6 @@ package ui;
 import model.GameManager;
 import javax.swing.*;
 import java.awt.*;
-
 /**
  * Panel displaying live game status like population, resources, and current day.
  */

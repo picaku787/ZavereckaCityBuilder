@@ -3,12 +3,10 @@ package view;
 import model.Building;
 import model.BuildingType;
 import ui.GameScreen;
-
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.Random;
-
 /**
  * A shop window that allows the user to select and purchase a building.
  */

@@ -1,7 +1,6 @@
 package events;
 
 import model.GameManager;
-
 /**
  * Event representing an economic boom that increases player's income for 5 days.
  */

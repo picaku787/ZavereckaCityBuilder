@@ -1,5 +1,4 @@
 import view.MainWindow;
-
 /**
  * start of the app. Launches the main game window.
  */

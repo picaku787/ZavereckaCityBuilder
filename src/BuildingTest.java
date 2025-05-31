@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Whole class assisted by ChatGPT
  *

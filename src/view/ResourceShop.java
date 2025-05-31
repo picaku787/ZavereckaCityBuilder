@@ -1,7 +1,6 @@
 package view;
 
 import model.GameManager;
-
 import javax.swing.*;
 import java.awt.*;
 

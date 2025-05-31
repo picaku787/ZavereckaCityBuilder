@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 import java.net.URL;
-
 /**
  * Represents a building in the game with associated costs, production values,
  * and functionality for upgrading and icon handling.

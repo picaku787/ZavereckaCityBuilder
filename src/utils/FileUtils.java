@@ -2,7 +2,6 @@ package utils;
 
 import model.GameManager;
 import java.io.*;
-
 /**
  * Utility class for saving and loading game state from a file.
  */

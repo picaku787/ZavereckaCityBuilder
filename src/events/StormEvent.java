@@ -3,7 +3,6 @@ package events;
 import model.GameManager;
 import model.Tile;
 import model.Building;
-
 import javax.swing.*;
 import java.util.*;
 

@@ -5,7 +5,6 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 import events.EventManager;
-
 /**
  * The main game panel containing the tile grid, UI panels and game loop logic.
  * Manages building placement, upgrades and daily updates.

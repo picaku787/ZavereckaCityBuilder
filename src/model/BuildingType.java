@@ -1,4 +1,5 @@
 package model;
+
 /**
 * Enum representing different types of buildings in the game.
 */

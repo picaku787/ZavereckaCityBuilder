@@ -1,7 +1,6 @@
 package events;
 
 import model.GameManager;
-
 /**
  * Interface representing a game event.
  * Each event has a title, a message, options for the player,

@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-
 /**
  * Represents a single tile in the game grid which can hold a building.
  */

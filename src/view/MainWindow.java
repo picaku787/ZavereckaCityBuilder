@@ -4,7 +4,6 @@ import model.GameManager;
 import ui.GameScreen;
 import utils.FileUtils;
 import javax.swing.*;
-
 /**
  * The main window of the app. Handles game initialization, menus, saving/loading,
  * and transitioning between game states.

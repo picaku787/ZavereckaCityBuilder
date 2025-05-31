@@ -1,7 +1,6 @@
 package events;
 
 import model.GameManager;
-
 /**
  * Event representing Material inflation that causes the price of materials to escalate.
  */
