@@ -9,7 +9,7 @@ import java.util.*;
 public class StormEvent implements GameEvent {
 
     public String getTitle() {
-        return "Devastating Storm";
+        return "Storm";
     }
 
     public String getMessage() {

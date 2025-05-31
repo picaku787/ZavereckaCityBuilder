@@ -13,6 +13,7 @@ public class GameScreen extends JPanel {
     private GameManager manager;
     private JButton[][] buttons;
     private MainWindow parentWindow;
+    private Timer gameTimer;
 
     public GameScreen(GameManager manager, MainWindow parentWindow) {
         this.manager = manager;
@@ -144,16 +145,18 @@ public class GameScreen extends JPanel {
 
 
     private void startGameLoop() {
-        Timer timer = new Timer(5000, e -> {
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
 
-            manager.setPopulation(manager.getTotalPopulationFromBuildings());
+        gameTimer = new Timer(5000, e -> {
+            manager.setPopulation(manager.getTotalPopulation());
 
-            int foodProduction = getFoodSupport();
+            int foodProduction = manager.getFoodProduction();
             int foodNeeded = manager.getPopulation();
             int netFood = foodProduction - foodNeeded;
 
             manager.incrementDay();
-
 
             int income = manager.getPopulation() * 4;
             if (manager.isEconomicBoomActive()) {
@@ -161,58 +164,61 @@ public class GameScreen extends JPanel {
             }
             manager.changeMoney(income);
 
-
-
             manager.changeFood(netFood);
-
 
             eventManager.maybeTriggerEvent(manager, this);
 
-            if (manager.getEconomicBoomDays() > 0) {
+            if (manager.getEconomicBoomDays() > 0)
                 manager.setEconomicBoomDays(manager.getEconomicBoomDays() - 1);
-            }
 
-            if (manager.getHouseUpgradeBonusDays() > 0){
+            if (manager.getHouseUpgradeBonusDays() > 0)
                 manager.setHouseUpgradeBonusDays(manager.getHouseUpgradeBonusDays() - 1);
-            }
 
-            if (manager.getMaterialInflationDays() > 0){
+            if (manager.getMaterialInflationDays() > 0)
                 manager.setMaterialInflationDays(manager.getMaterialInflationDays() - 1);
-            }
 
-            if (manager.getFood() == 0 && manager.getPopulation() > 0) {
+            if (manager.getPopulation() > 0 && manager.getFood() <= 0) {
                 manager.incrementStarvationDays();
-
                 int starvationDays = manager.getStarvationDays();
-                int loss = Math.max(1, (manager.getPopulation() * starvationDays) / 20);
-                manager.addPopulation(-loss);
 
-                JOptionPane.showMessageDialog(this,
-                        "Starvation continues!\n" + loss + " people died.\n" +
-                                starvationDays + " day(s) without food.",
-                        "Starvation", JOptionPane.WARNING_MESSAGE);
-
+                if (starvationDays == 1) {
+                    JOptionPane.showMessageDialog(this,
+                            "There's not enough food! Your people will starve in 20 days.",
+                            "Starvation Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (starvationDays < 20) {
+                    JOptionPane.showMessageDialog(this,
+                            "Starvation continues (" + starvationDays + " days without food).",
+                            "Starvation", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    manager.setPopulation(0);
+                    JOptionPane.showMessageDialog(this,
+                            "Your people have starved after 20 days with no food.",
+                            "Game Over", JOptionPane.ERROR_MESSAGE);
+                    manager.resetStarvationDays();
+                }
             } else {
-
                 manager.resetStarvationDays();
             }
 
-
-            int netPower = getNetPower();
+            int netPower = manager.getPowerFromBuildings();
             int maxPower = countPowerPlants() * 20;
             int adjustedPower = Math.min(netPower, maxPower);
             manager.setPower(adjustedPower);
 
-
-            if (manager.getDayCount() >= 20 &&
-                    (manager.getPopulation() <= 0 || manager.getFood() < -50)) {
+            if (manager.getDayCount() >= 20 && manager.getPopulation() <= 0) {
                 parentWindow.showGameOverScreen();
             }
 
             refreshUI();
         });
 
-        timer.start();
+        gameTimer.start();
+    }
+
+    public void stopGameLoop() {
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
     }
 
 
@@ -222,13 +228,10 @@ public class GameScreen extends JPanel {
 
 
 
-    private int getNetPower() {
-        return manager.getNetPowerFromBuildings();
-    }
 
 
-    private int getFoodSupport() {
-        return manager.getTotalFoodProduction();
-    }
+
+
+
 
 }

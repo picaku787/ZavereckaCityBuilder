@@ -159,13 +159,14 @@ public class GameManager implements Serializable {
     public int getEconomicBoomDays() {
         return economicBoomDays;
     }
+
     public boolean isEconomicBoomActive() {
         return economicBoomDays > 0;
     }
 
 
 
-    public int getTotalPopulationFromBuildings() {
+    public int getTotalPopulation() {
         int total = 0;
         for (Building b : buildings) {
             total += b.getPopulationBonus();
@@ -173,7 +174,7 @@ public class GameManager implements Serializable {
         return total;
     }
 
-    public int getTotalFoodProduction() {
+    public int getFoodProduction() {
         int total = 0;
         for (Building b : buildings) {
             total += b.getFoodProduction();
@@ -181,7 +182,7 @@ public class GameManager implements Serializable {
         return total;
     }
 
-    public int getNetPowerFromBuildings() {
+    public int getPowerFromBuildings() {
         int total = 0;
         for (Building b : buildings) {
             total += b.getEnergyProduction() - b.getEnergyConsumption();
@@ -224,4 +225,29 @@ public class GameManager implements Serializable {
                 concrete >= b.getCostConcrete() &&
                 glass >= b.getCostGlass();
     }
+    public void reset() {
+        money = 100;
+        food = 100;
+        power = 0;
+        dayCount = 0;
+        population = 0;
+
+        iron = 10;
+        concrete = 10;
+        glass = 10;
+
+        starvationDays = 0;
+        houseUpgradeBonusDays = 0;
+        materialInflationDays = 0;
+        economicBoomDays = 0;
+
+        buildings.clear();
+
+        for (int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[0].length; x++) {
+                tiles[y][x].setBuilding(null);
+            }
+        }
+    }
+
 }

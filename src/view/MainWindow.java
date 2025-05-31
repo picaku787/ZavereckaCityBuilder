@@ -55,17 +55,26 @@ public class MainWindow extends JFrame {
     }
 
     private void newGame() {
+        if (gameScreen != null) {
+            gameScreen.stopGameLoop();
+        }
+
         manager = new GameManager();
-        loadGame(manager);
+        manager.reset();
+        gameScreen = new GameScreen(manager, this);
+        setContentPane(gameScreen);
+        revalidate();
+        repaint();
     }
 
     private void loadGame(GameManager gm) {
         if (gameScreen != null) {
-            remove(gameScreen);
+            gameScreen.stopGameLoop();
         }
+
         manager = gm;
         gameScreen = new GameScreen(manager, this);
-        add(gameScreen);
+        setContentPane(gameScreen);
         revalidate();
         repaint();
     }
