@@ -6,7 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import events.EventManager;
 
-
+/**
+ * The main game panel containing the tile grid, UI panels and game loop logic.
+ * Manages building placement, upgrades and daily updates.
+ */
 public class GameScreen extends JPanel {
 
     private final EventManager eventManager = new EventManager();
@@ -15,6 +18,12 @@ public class GameScreen extends JPanel {
     private MainWindow parentWindow;
     private Timer gameTimer;
 
+    /**
+     * Constructs the game screen, initializes UI components, and starts the game loop.
+     *
+     * @param manager the game manager controlling the game state
+     * @param parentWindow the parent frame hosting the game
+     */
     public GameScreen(GameManager manager, MainWindow parentWindow) {
         this.manager = manager;
         this.parentWindow = parentWindow;
@@ -53,6 +62,11 @@ public class GameScreen extends JPanel {
         refreshUI();
         startGameLoop();
     }
+    /**
+     * Attempts to upgrade the selected building, checking for resource availability.
+     *
+     * @param b the building to upgrade
+     */
     private void attemptUpgrade(Building b) {
         int cost = b.getUpgradeCostMoney();
 
@@ -83,7 +97,12 @@ public class GameScreen extends JPanel {
                 "Upgrade Successful", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
+    /**
+     * Handles player interaction with a tile either placing a building or upgrading an existing one.
+     *
+     * @param x the x-coordinate of the clicked tile
+     * @param y the y-coordinate of the clicked tile
+     */
     private void handleTileClick(int x, int y) {
         Tile tile = manager.getTiles()[y][x];
         if (tile.isEmpty()) {
@@ -129,6 +148,10 @@ public class GameScreen extends JPanel {
             }
         }
     }
+
+    /**
+     * Counts the number of power plant buildings currently placed.
+     */
     private int countPowerPlants() {
         int count = 0;
         Tile[][] grid = manager.getTiles();
@@ -143,7 +166,10 @@ public class GameScreen extends JPanel {
         return count;
     }
 
-
+    /**
+     * Starts the main game loop which handles day advancement, population/food logic,
+     * resource changes, event triggering, and game over checks.
+     */
     private void startGameLoop() {
         if (gameTimer != null) {
             gameTimer.stop();
@@ -215,23 +241,12 @@ public class GameScreen extends JPanel {
         gameTimer.start();
     }
 
+    /**
+     * Stops the game loop timer.
+     */
     public void stopGameLoop() {
         if (gameTimer != null) {
             gameTimer.stop();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

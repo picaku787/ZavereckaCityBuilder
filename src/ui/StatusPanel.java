@@ -1,10 +1,12 @@
 package ui;
 
 import model.GameManager;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel displaying live game status like population, resources, and current day.
+ */
 public class StatusPanel extends JPanel {
 
     private GameManager manager;
@@ -18,7 +20,11 @@ public class StatusPanel extends JPanel {
     private JLabel lblGlass;
     private JLabel lblDay;
 
-
+    /**
+     * Constructs the status panel and starts a timer to update its labels regularly.
+     *
+     * @param manager the game manager providing current game stats
+     */
     public StatusPanel(GameManager manager) {
         this.manager = manager;
 
@@ -50,6 +56,13 @@ public class StatusPanel extends JPanel {
         refresh.start();
     }
 
+    /**
+     * Creates and styles a JLabel used in the status panel.
+     *
+     * @param text the initial label text
+     * @param font the font style to apply
+     * @return the configured JLabel
+     */
     private JLabel createLabel(String text, Font font) {
         JLabel label = new JLabel(text);
         label.setFont(font);
@@ -57,7 +70,9 @@ public class StatusPanel extends JPanel {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         return label;
     }
-
+    /**
+     * Updates the values displayed in the status panel.
+     */
     public void update() {
         lblPopulation.setText("Population: " + manager.getPopulation());
         lblMoney.setText("Money: " + manager.getMoney());

@@ -2,8 +2,12 @@ package events;
 
 import model.GameManager;
 
+import javax.swing.*;
 import java.util.Random;
 
+/**
+ * Event representing the discovery of a hidden treasure, granting the player a bonus.
+ */
 public class TreasureEvent implements GameEvent {
 
     @Override
@@ -21,6 +25,9 @@ public class TreasureEvent implements GameEvent {
         return new String[]{"Claim it!"};
     }
 
+    /**
+     * Applies the treasure event by granting the player a random percentage increase in money.
+     */
     @Override
     public void apply(int option, GameManager manager) {
         int currentMoney = manager.getMoney();
@@ -32,9 +39,9 @@ public class TreasureEvent implements GameEvent {
 
         manager.changeMoney(reward);
 
-        javax.swing.JOptionPane.showMessageDialog(null,
+        JOptionPane.showMessageDialog(null,
                 "You received " + reward + "$",
                 "Treasure Found",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }

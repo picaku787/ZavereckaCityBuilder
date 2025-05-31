@@ -5,8 +5,11 @@ import java.awt.*;
 import java.io.Serializable;
 import java.net.URL;
 
+/**
+ * Represents a building in the game with associated costs, production values,
+ * and functionality for upgrading and icon handling.
+ */
 public class Building implements Serializable {
-
 
     private String name;
     private int costMoney;
@@ -23,6 +26,9 @@ public class Building implements Serializable {
     private BuildingType type;
     private ImageIcon icon;
 
+    /**
+     * Constructs a Building object with all its properties initialized.
+     */
     public Building(String name, int money, int iron, int concrete, int glass,
                     int populationBonus, int energyProduction, int energyConsumption,
                     int foodProduction, ImageIcon rawIcon, BuildingType type) {
@@ -40,14 +46,12 @@ public class Building implements Serializable {
         this.maxLevel = 3;
         this.type = type;
 
-
         if (rawIcon != null && rawIcon.getDescription() != null) {
             this.baseIconName = rawIcon.getDescription();
         } else {
             this.baseIconName = "default";
             System.err.println("Icon description missing, using default baseIconName");
         }
-
 
         if (rawIcon != null) {
             Image scaledImage = rawIcon.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
@@ -57,18 +61,23 @@ public class Building implements Serializable {
         }
     }
 
-
-
+    /**
+     * Returns the upgrade cost in money based on the building name and level.
+     */
     public int getUpgradeCostMoney() {
         return switch (name) {
             case "House" -> 1000 * level;
             case "Shop" -> 1500 * level;
-            case "Power Plant" -> 2000* level;
+            case "Power Plant" -> 2000 * level;
             case "Warehouse" -> 2500 * level;
             default -> 500 * level;
         };
     }
 
+    /**
+     * Upgrades the building to the next level, applying different bonuses
+     * if a house upgrade bonus is active.
+     */
     public void upgrade() {
         if (!canUpgrade()) return;
 
@@ -77,20 +86,15 @@ public class Building implements Serializable {
         GameManager manager = new GameManager();
         if (type == BuildingType.HOUSE && manager.getHouseUpgradeBonusDays() > 0) {
             this.populationBonus *= 20;
-        }else {
+        } else {
             this.populationBonus *= 10;
         }
         this.foodProduction *= 10;
         this.energyProduction *= 10;
         this.energyConsumption *= 5;
 
-
-
         System.out.println(name + " upgraded to level " + level + ".");
     }
-
-
-
 
     public String getName() {
         return name;
@@ -140,6 +144,11 @@ public class Building implements Serializable {
         return type;
     }
 
+    /**
+     * With help from ChatGPT
+     *
+     * Returns the scaled and appropriate icon for the building based on its level.
+     */
     public ImageIcon getIcon() {
         String path = "/icons/" + baseIconName;
         if (level > 1) {
@@ -158,9 +167,4 @@ public class Building implements Serializable {
         Image scaled = raw.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH);
         return new ImageIcon(scaled);
     }
-
-
-
-
-
 }

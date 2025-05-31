@@ -5,8 +5,16 @@ import model.GameManager;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A shop window allowing players to purchase building materials like Iron, Concrete, and Glass.
+ */
 public class ResourceShop extends JDialog {
 
+    /**
+     * Constructs the resource shop and sets up purchase buttons.
+     *
+     * @param manager the game manager managing game state and resources
+     */
     public ResourceShop(GameManager manager) {
         setTitle("Buy Resources");
         setSize(400, 200);
@@ -23,7 +31,14 @@ public class ResourceShop extends JDialog {
         setVisible(true);
     }
 
-
+    /**
+     * Creates a resource purchase button for a given material.
+     *
+     * @param name    the name of the resource
+     * @param cost    the base cost per unit
+     * @param manager the game manager for handling resource logic
+     * @return the configured JButton
+     */
     private JButton resourceButton(String name, int cost, GameManager manager) {
         int displayCost = manager.isMaterialInflated() ? cost * 4 : cost;
         JButton btn = new JButton(name + " (" + displayCost + "$)");

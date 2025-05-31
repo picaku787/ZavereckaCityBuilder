@@ -9,8 +9,19 @@ import java.awt.*;
 import java.net.URL;
 import java.util.Random;
 
+/**
+ * A shop window that allows the user to select and purchase a building.
+ */
 public class BuildingShop extends JDialog {
 
+    /**
+     * Helped by ChatGpt
+     *
+     * Loads an icon for a building from the resource directory.
+     *
+     * @param fileName the name of the icon file
+     * @return the scaled ImageIcon with description
+     */
     private ImageIcon loadIcon(String fileName) {
         String path = "/icons/" + fileName;
         URL resource = getClass().getResource(path);
@@ -25,7 +36,13 @@ public class BuildingShop extends JDialog {
     }
 
 
-
+    /**
+     * Constructs the building shop interface with available building options.
+     *
+     * @param gameScreen the game screen to update after building
+     * @param x          the x-coordinate where the building will be placed
+     * @param y          the y-coordinate where the building will be placed
+     */
     public BuildingShop(GameScreen gameScreen, int x, int y) {
         setTitle("Buy a Building");
         setSize(400, 300);
@@ -60,7 +77,15 @@ public class BuildingShop extends JDialog {
 
         setVisible(true);
     }
-
+    /**
+     * Creates a button representing a building that can be purchased and placed.
+     *
+     * @param b          the building to be created
+     * @param gameScreen the game screen for interaction
+     * @param x          the tile x-coordinate
+     * @param y          the tile y-coordinate
+     * @return the configured JButton
+     */
     private JButton buildingButton(Building b, GameScreen gameScreen, int x, int y) {
         JButton button = new JButton("<html>" + b.getName() + "<br/>Money " + b.getCostMoney() +
                 "<br/>Concrete " + b.getCostConcrete() + "<br/>Iron " + b.getCostIron() +
@@ -82,6 +107,11 @@ public class BuildingShop extends JDialog {
 
     private Random rng = new Random();
 
+    /**
+     * Returns a random population bonus for houses.
+     *
+     * @return a random integer between 1 and 6
+     */
     private int getRandomPop() {
         return rng.nextInt(6) + 1;
     }

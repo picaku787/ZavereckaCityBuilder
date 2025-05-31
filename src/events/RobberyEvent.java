@@ -2,8 +2,12 @@ package events;
 
 import model.GameManager;
 
+import javax.swing.*;
 import java.util.Random;
 
+/**
+ * Event representing a robbery where the player loses a small percentage of their money.
+ */
 public class RobberyEvent implements GameEvent {
 
     @Override
@@ -13,7 +17,7 @@ public class RobberyEvent implements GameEvent {
 
     @Override
     public String getMessage() {
-        return "A group of bandits has stolen some of your money during the night!";
+        return "A group of bandits has stolen some of your money during the night";
     }
 
     @Override
@@ -21,6 +25,10 @@ public class RobberyEvent implements GameEvent {
         return new String[]{"Accept the loss"};
     }
 
+    /**
+     * Applies the robbery effect by subtracting a random percentage of money
+     * and displaying a message with the lost amount.
+     */
     @Override
     public void apply(int option, GameManager manager) {
         int currentMoney = manager.getMoney();
@@ -32,9 +40,9 @@ public class RobberyEvent implements GameEvent {
 
         manager.changeMoney(-loss);
 
-        javax.swing.JOptionPane.showMessageDialog(null,
+        JOptionPane.showMessageDialog(null,
                 "You lost " + loss + "$",
                 "Robbery",
-                javax.swing.JOptionPane.WARNING_MESSAGE);
+                JOptionPane.WARNING_MESSAGE);
     }
 }
