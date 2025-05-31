@@ -168,6 +168,10 @@ public class GameManager implements Serializable {
         return economicBoomDays > 0;
     }
 
+    public void setFood(int food) {
+        this.food = food;
+    }
+
     /**
      * Calculates the total population from all constructed buildings.
      */

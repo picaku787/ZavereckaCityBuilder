@@ -182,6 +182,8 @@ public class GameScreen extends JPanel {
             int foodNeeded = manager.getPopulation();
             int netFood = foodProduction - foodNeeded;
 
+
+
             manager.incrementDay();
 
             int income = manager.getPopulation() * 4;
@@ -193,6 +195,11 @@ public class GameScreen extends JPanel {
             manager.changeFood(netFood);
 
             eventManager.maybeTriggerEvent(manager, this);
+
+            if (manager.getPower()==0) {
+                JOptionPane.showMessageDialog(this,"There's not enough power to keep the shops running!","No Power",JOptionPane.WARNING_MESSAGE);
+                manager.setFood(0);
+            }
 
             if (manager.getEconomicBoomDays() > 0)
                 manager.setEconomicBoomDays(manager.getEconomicBoomDays() - 1);
