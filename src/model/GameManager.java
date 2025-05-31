@@ -14,6 +14,10 @@ public class GameManager implements Serializable {
     private int power = 0;
     private int population = 0;
     private int starvationDays = 0;
+    private int houseUpgradeBonusDays = 0;
+    private int materialInflationDays = 0;
+    private int economicBoomDays = 0;
+
 
     private int iron = 10;
     private int concrete = 10;
@@ -71,6 +75,30 @@ public class GameManager implements Serializable {
         this.population = population;
     }
 
+    public void setDayCount(int dayCount) {
+        this.dayCount = dayCount;
+    }
+
+    public int getHouseUpgradeBonusDays() {
+        return houseUpgradeBonusDays;
+    }
+
+    public void setHouseUpgradeBonusDays(int houseUpgradeBonusDays) {
+        this.houseUpgradeBonusDays = houseUpgradeBonusDays;
+    }
+
+    public int getMaterialInflationDays() {
+        return materialInflationDays;
+    }
+
+    public void setMaterialInflationDays(int materialInflationDays) {
+        this.materialInflationDays = materialInflationDays;
+    }
+
+    public boolean isMaterialInflated() {
+        return materialInflationDays > 0;
+    }
+
     public void addPopulation(int amount) {
         population += amount;
     }
@@ -120,6 +148,22 @@ public class GameManager implements Serializable {
     public int getStarvationDays() {
         return starvationDays;
     }
+
+    public void removeBuilding(Building b) {
+        buildings.remove(b);
+    }
+
+    public void setEconomicBoomDays(int days) {
+        economicBoomDays = days;
+    }
+    public int getEconomicBoomDays() {
+        return economicBoomDays;
+    }
+    public boolean isEconomicBoomActive() {
+        return economicBoomDays > 0;
+    }
+
+
 
     public int getTotalPopulationFromBuildings() {
         int total = 0;

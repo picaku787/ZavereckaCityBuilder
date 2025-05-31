@@ -1,6 +1,7 @@
 package view;
 
 import model.Building;
+import model.BuildingType;
 import ui.GameScreen;
 
 import javax.swing.*;
@@ -36,25 +37,25 @@ public class BuildingShop extends JDialog {
         add(buildingButton(
                 new Building("House", 10, 2, 2, 1,
                         getRandomPop(), 0, 1, 0,
-                        loadIcon("house.png")),
+                        loadIcon("house.png"), BuildingType.HOUSE),
                 gameScreen, x, y));
 
         add(buildingButton(
                 new Building("Shop", 20, 1, 0, 1,
                         0, 0, 2, 20,
-                        loadIcon("shop.png")),
+                        loadIcon("shop.png"),BuildingType.SHOP),
                 gameScreen, x, y));
 
         add(buildingButton(
                 new Building("Power Plant", 50, 2, 3, 0,
                         0, 20, 0, 0,
-                        loadIcon("powerplant.png")),
+                        loadIcon("powerplant.png"),BuildingType.POWER_PLANT),
                 gameScreen, x, y));
 
         add(buildingButton(
                 new Building("Warehouse", 120, 4, 5, 2,
                         0, 0, 1, 0,
-                        loadIcon("warehouse.png")),
+                        loadIcon("warehouse.png"),BuildingType.WAREHOUSE),
                 gameScreen, x, y));
 
         setVisible(true);

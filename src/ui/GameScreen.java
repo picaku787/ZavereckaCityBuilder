@@ -4,10 +4,12 @@ import model.*;
 import view.*;
 import javax.swing.*;
 import java.awt.*;
+import events.EventManager;
 
 
 public class GameScreen extends JPanel {
 
+    private final EventManager eventManager = new EventManager();
     private GameManager manager;
     private JButton[][] buttons;
     private MainWindow parentWindow;
@@ -55,6 +57,7 @@ public class GameScreen extends JPanel {
 
 
         int matCost = 20 * b.getLevel();
+
 
         if (manager.getMoney() < cost ||
                 manager.getConcrete() < matCost ||
@@ -152,11 +155,30 @@ public class GameScreen extends JPanel {
             manager.incrementDay();
 
 
-            manager.changeMoney(manager.getPopulation() * 4);
+            int income = manager.getPopulation() * 4;
+            if (manager.isEconomicBoomActive()) {
+                income *= 2;
+            }
+            manager.changeMoney(income);
+
 
 
             manager.changeFood(netFood);
 
+
+            eventManager.maybeTriggerEvent(manager, this);
+
+            if (manager.getEconomicBoomDays() > 0) {
+                manager.setEconomicBoomDays(manager.getEconomicBoomDays() - 1);
+            }
+
+            if (manager.getHouseUpgradeBonusDays() > 0){
+                manager.setHouseUpgradeBonusDays(manager.getHouseUpgradeBonusDays() - 1);
+            }
+
+            if (manager.getMaterialInflationDays() > 0){
+                manager.setMaterialInflationDays(manager.getMaterialInflationDays() - 1);
+            }
 
             if (manager.getFood() == 0 && manager.getPopulation() > 0) {
                 manager.incrementStarvationDays();

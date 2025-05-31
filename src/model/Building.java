@@ -20,11 +20,12 @@ public class Building implements Serializable {
     private int level = 1;
     private int maxLevel = 3;
     private String baseIconName;
+    private BuildingType type;
     private ImageIcon icon;
 
     public Building(String name, int money, int iron, int concrete, int glass,
                     int populationBonus, int energyProduction, int energyConsumption,
-                    int foodProduction, ImageIcon rawIcon) {
+                    int foodProduction, ImageIcon rawIcon, BuildingType type) {
 
         this.name = name;
         this.costMoney = money;
@@ -37,6 +38,7 @@ public class Building implements Serializable {
         this.foodProduction = foodProduction;
         this.level = 1;
         this.maxLevel = 3;
+        this.type = type;
 
 
         if (rawIcon != null && rawIcon.getDescription() != null) {
@@ -72,8 +74,12 @@ public class Building implements Serializable {
 
         level++;
 
-
-        this.populationBonus *= 10;
+        GameManager manager = new GameManager();
+        if (type == BuildingType.HOUSE && manager.getHouseUpgradeBonusDays() > 0) {
+            this.populationBonus *= 20;
+        }else {
+            this.populationBonus *= 10;
+        }
         this.foodProduction *= 10;
         this.energyProduction *= 10;
         this.energyConsumption *= 5;
@@ -130,8 +136,9 @@ public class Building implements Serializable {
         return level;
     }
 
-
-
+    public BuildingType getType() {
+        return type;
+    }
 
     public ImageIcon getIcon() {
         String path = "/icons/" + baseIconName;

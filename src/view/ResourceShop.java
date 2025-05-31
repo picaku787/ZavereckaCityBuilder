@@ -18,11 +18,15 @@ public class ResourceShop extends JDialog {
         add(resourceButton("Concrete", 5, manager));
         add(resourceButton("Glass", 5, manager));
 
+
+
         setVisible(true);
     }
 
+
     private JButton resourceButton(String name, int cost, GameManager manager) {
-        JButton btn = new JButton(name + " (" + cost + "$)");
+        int displayCost = manager.isMaterialInflated() ? cost * 4 : cost;
+        JButton btn = new JButton(name + " (" + displayCost + "$)");
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
 
@@ -30,7 +34,14 @@ public class ResourceShop extends JDialog {
             String input = JOptionPane.showInputDialog(this, "How many units of " + name + " do you want to buy?");
             try {
                 int amount = Integer.parseInt(input);
-                int totalCost = amount * cost;
+
+
+                int finalCost = cost;
+                if (manager.isMaterialInflated()) {
+                    finalCost *= 4;
+                }
+
+                int totalCost = amount * finalCost;
 
                 int current = switch (name) {
                     case "Iron" -> manager.getIron();
@@ -61,6 +72,8 @@ public class ResourceShop extends JDialog {
                 JOptionPane.showMessageDialog(this, "Invalid input.");
             }
         });
+
+
 
 
         return btn;
