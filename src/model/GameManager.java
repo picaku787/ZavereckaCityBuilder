@@ -13,6 +13,7 @@ public class GameManager implements Serializable {
     private int food = 50;
     private int power = 0;
     private int population = 0;
+    private int starvationDays = 0;
 
     private int iron = 10;
     private int concrete = 10;
@@ -38,14 +39,37 @@ public class GameManager implements Serializable {
     }
 
 
-    public int getMoney() { return money; }
-    public int getFood() { return food; }
-    public int getPower() { return power; }
-    public int getPopulation() { return population; }
+    public int getMoney() {
+        return money;
+    }
 
-    public int getIron() { return iron; }
-    public int getConcrete() { return concrete; }
-    public int getGlass() { return glass; }
+    public int getFood() {
+        return food;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public int getIron() {
+        return iron;
+    }
+
+    public int getConcrete() {
+        return concrete;
+    }
+
+    public int getGlass() {
+        return glass;
+    }
+
+    public void setPopulation(int population) {
+        this.population = population;
+    }
 
     public void addPopulation(int amount) {
         population += amount;
@@ -57,19 +81,24 @@ public class GameManager implements Serializable {
 
     public void changeFood(int amount) {
         food += amount;
+        if (food > 100) {
+            food = 100;
+        } else if (food < 0) {
+            food = 0;
+        }
     }
 
 
     public void addIron(int amount) {
-        iron += amount;
+        iron = Math.min(iron + amount, getMaxMaterialStorage());
     }
 
     public void addConcrete(int amount) {
-        concrete += amount;
+        concrete = Math.min(concrete + amount, getMaxMaterialStorage());
     }
 
     public void addGlass(int amount) {
-        glass += amount;
+        glass = Math.min(glass + amount, getMaxMaterialStorage());
     }
 
     public void incrementDay() {
@@ -79,6 +108,61 @@ public class GameManager implements Serializable {
     public int getDayCount() {
         return dayCount;
     }
+
+    public void resetStarvationDays() {
+        starvationDays = 0;
+    }
+
+    public void incrementStarvationDays() {
+        starvationDays++;
+    }
+
+    public int getStarvationDays() {
+        return starvationDays;
+    }
+
+    public int getTotalPopulationFromBuildings() {
+        int total = 0;
+        for (Building b : buildings) {
+            total += b.getPopulationBonus();
+        }
+        return total;
+    }
+
+    public int getTotalFoodProduction() {
+        int total = 0;
+        for (Building b : buildings) {
+            total += b.getFoodProduction();
+        }
+        return total;
+    }
+
+    public int getNetPowerFromBuildings() {
+        int total = 0;
+        for (Building b : buildings) {
+            total += b.getEnergyProduction() - b.getEnergyConsumption();
+        }
+        return total;
+    }
+
+
+    public int getMaxMaterialStorage() {
+        int total = 10;
+        for (int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[0].length; x++) {
+                Building b = tiles[y][x].getBuilding();
+                if (b != null && b.getName().equalsIgnoreCase("Warehouse")&& !(b.getLevel() ==1)) {
+                    total += b.getLevel() * 30;
+                }
+                if (b!=null&&b.getName().equalsIgnoreCase("Warehouse") &&b.getLevel()==1){
+                    total+= 10;
+                }
+            }
+        }
+        return total;
+    }
+
+
 
     public void build(Building building, int x, int y) {
         tiles[y][x].setBuilding(building);

@@ -32,6 +32,21 @@ public class ResourceShop extends JDialog {
                 int amount = Integer.parseInt(input);
                 int totalCost = amount * cost;
 
+                int current = switch (name) {
+                    case "Iron" -> manager.getIron();
+                    case "Concrete" -> manager.getConcrete();
+                    case "Glass" -> manager.getGlass();
+                    default -> 0;
+                };
+
+                int maxStorage = manager.getMaxMaterialStorage();
+                int availableSpace = maxStorage - current;
+
+                if (amount > availableSpace) {
+                    JOptionPane.showMessageDialog(this, "You can only store " + availableSpace + " more units.");
+                    return;
+                }
+
                 if (manager.getMoney() >= totalCost) {
                     manager.changeMoney(-totalCost);
                     switch (name) {
@@ -46,6 +61,7 @@ public class ResourceShop extends JDialog {
                 JOptionPane.showMessageDialog(this, "Invalid input.");
             }
         });
+
 
         return btn;
     }
